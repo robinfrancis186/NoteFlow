@@ -2,6 +2,109 @@
 
 A deep learning system for automatic music transcription, optimized for the 2025 Automatic Music Transcription Challenge.
 
+## Pipeline Overview
+
+```mermaid
+graph TD
+    subgraph Input
+        A[Audio File] --> B[AudioProcessor]
+        B --> C[Feature Extraction]
+    end
+
+    subgraph Feature_Processing
+        C --> |Mel Spectrogram| D[CNN Features]
+        C --> |Waveform| E[Wav2Vec Features]
+        C --> |HPSS| F[Harmonic/Percussive]
+    end
+
+    subgraph Model_Components
+        D --> G[OnsetDetector]
+        E --> H[PitchEstimator]
+        F --> I[InstrumentClassifier]
+    end
+
+    subgraph Multi_Task_Learning
+        G --> |Onset Times| J[Note Events]
+        H --> |Pitch Predictions| J
+        I --> |Instrument Classes| J
+    end
+
+    subgraph Post_Processing
+        J --> K[MIDIGenerator]
+        K --> L[Tempo Detection]
+        K --> M[Time Signature]
+        K --> N[Note Quantization]
+    end
+
+    subgraph Output
+        L --> O[MIDI File]
+        M --> O
+        N --> O
+    end
+
+    style Input fill:#f9f,stroke:#333,stroke-width:2px
+    style Feature_Processing fill:#bbf,stroke:#333,stroke-width:2px
+    style Model_Components fill:#bfb,stroke:#333,stroke-width:2px
+    style Multi_Task_Learning fill:#fbf,stroke:#333,stroke-width:2px
+    style Post_Processing fill:#fbb,stroke:#333,stroke-width:2px
+    style Output fill:#ff9,stroke:#333,stroke-width:2px
+```
+
+## Technical Architecture
+
+```mermaid
+graph TB
+    subgraph Audio_Input
+        A1[Raw Audio] --> A2[Librosa Processing]
+        A2 --> A3[Mel Spectrogram]
+        A2 --> A4[HPSS Separation]
+    end
+
+    subgraph Neural_Networks
+        subgraph OnsetDetector
+            B1[Conv2D Layers]
+            B2[BatchNorm + ReLU]
+            B3[BiLSTM]
+            B1 --> B2 --> B3
+        end
+
+        subgraph PitchEstimator
+            C1[Wav2Vec Features]
+            C2[Transformer Encoder]
+            C3[Multi-Head Attention]
+            C1 --> C2 --> C3
+        end
+
+        subgraph InstrumentClassifier
+            D1[Conv2D Layers]
+            D2[Adaptive Pooling]
+            D3[Dense Layers]
+            D1 --> D2 --> D3
+        end
+    end
+
+    subgraph MIDI_Generation
+        E1[Note Event Detection]
+        E2[Tempo Analysis]
+        E3[Time Signature Detection]
+        E4[Note Quantization]
+        E5[MIDI File Creation]
+        E1 & E2 & E3 --> E4 --> E5
+    end
+
+    A3 --> B1
+    A4 --> C1
+    A3 --> D1
+    B3 & C3 & D3 --> E1
+
+    style Audio_Input fill:#f9f,stroke:#333,stroke-width:2px
+    style Neural_Networks fill:#bbf,stroke:#333,stroke-width:2px
+    style MIDI_Generation fill:#bfb,stroke:#333,stroke-width:2px
+    style OnsetDetector fill:#fbb,stroke:#333,stroke-width:2px
+    style PitchEstimator fill:#fbf,stroke:#333,stroke-width:2px
+    style InstrumentClassifier fill:#ff9,stroke:#333,stroke-width:2px
+```
+
 ## Features
 
 - Multi-instrument transcription (up to 3 instruments simultaneously)
