@@ -1,0 +1,75 @@
+# Training configuration for music transcription competition
+
+# Experiment settings
+experiment_name: "competition_training_run"
+seed: 42
+data_dir: "data"
+
+# Model parameters
+model:
+  pretrained_wav2vec: true
+  freeze_feature_extractor: false
+  hidden_size: 512
+  num_attention_heads: 8
+  num_transformer_layers: 6
+  dropout: 0.1
+
+# Training parameters
+num_epochs: 100
+batch_size: 16
+learning_rate: 0.001
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Data loading
+num_workers: 4
+pin_memory: true
+
+# Audio processing
+audio:
+  sample_rate: 44100
+  hop_length: 512
+  n_mels: 128
+  f_min: 20
+  f_max: 8000
+
+# Augmentation
+augmentation:
+  enabled: true
+  pitch_shift:
+    enabled: true
+    min_semitones: -2
+    max_semitones: 2
+  time_stretch:
+    enabled: true
+    min_rate: 0.95
+    max_rate: 1.05
+  noise:
+    enabled: true
+    min_snr_db: 20
+    max_snr_db: 40
+
+# Competition specific
+competition:
+  min_tempo: 40
+  max_tempo: 200
+  min_pitch: 36  # C2
+  max_pitch: 96  # C7
+  supported_time_sigs:
+    - [4, 4]
+    - [3, 4]
+    - [6, 8]
+  max_instruments: 3
+  processing_time_limit: 6  # seconds per recording
+
+# Logging
+wandb:
+  project: "music-transcription-competition"
+  tags: ["competition", "multi-instrument"]
+  log_freq: 10  # steps
+
+# Checkpointing
+checkpoint:
+  save_best: true
+  save_last: true
+  save_freq: 5  # epochs 
