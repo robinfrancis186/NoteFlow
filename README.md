@@ -2,12 +2,9 @@
 
 A fast, accurate deep learning system for automatic music transcription, optimized for the 2025 Automatic Music Transcription Challenge.
 
-## Performance Highlights
+## Evaluation status
 
-- **Ultra-fast processing**: 0.27 seconds per file (95% below competition limit)
-- **High accuracy**: 100% onset accuracy, 100% pitch accuracy
-- **Instrument detection**: 33.3% accuracy (optimized for piano)
-- **Resource-efficient**: Runs on CPU, no GPU required
+Experimental audio-to-MIDI transcription pipeline. Earlier headline accuracy and speed figures are omitted because the README did not identify a reproducible dataset, split, hardware configuration, and evaluation run. Use the checked-in evaluation scripts to measure performance for a named input set; no benchmark was rerun during this documentation pass.
 
 ## Pipeline Overview
 
